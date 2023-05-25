@@ -1,58 +1,54 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useFormAndValidation } from "../hooks/useFormAndValidation"
 
 function Register({ onRegister }) {
-  const [formValue, setFormValue] = useState({ email: "", password: "" });
-
-  function handleChange(evt) {
-    const { name, value } = evt.target;
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
-  }
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    const { email, password } = formValue;
+    const { email, password } = values;
     onRegister(email, password);
-  }
+    resetForm();
+  };
 
   return (
     <div className="login">
       <div className="login__container">
         <h2 className="login__heading">Регистрация</h2>
-        <form className="login__form" name="register" onSubmit={handleSubmit}>
+        <form className="login__form" name="register" onSubmit={handleSubmit} noValidate>
           <input
-            id="email"
+            id="input-email"
             className="login__text"
             name="email"
             type="email"
             placeholder="Email"
+            minLength="2"
             required
             onChange={handleChange}
-            value={formValue.email || ""}
+            value={values.email || ""}
           />
           <span
             className="input-email-error login__text-input-error"
             type="text"
-          ></span>
+          >{errors.email}</span>
           <input
-            id="password"
+            id="input-password"
             className="login__text"
             name="password"
             type="password"
             placeholder="Пароль"
+            minLength="6"
+            maxLength="16"
             required
             onChange={handleChange}
-            value={formValue.password || ""}
+            value={values.password || ""}
           />
           <span
             className="input-password-error login__text-input-error"
             type="text"
-          ></span>
+          >{errors.password}</span>
           <div className="login__button-container">
-            <button className="login__button" type="submit">
+            <button className="login__button" type="submit" disabled={isValid?false:true}>
               Зарегистрироваться
             </button>
             <p className="login__send-text">

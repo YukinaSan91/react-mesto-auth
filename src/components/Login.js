@@ -1,22 +1,16 @@
 import React, { useState } from "react";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 function Login({ onLogin }) {
-  const [formValue, setFormValue] = useState({ email: "", password: "" });
-
-  function handleChange(evt) {
-    const { name, value } = evt.target;
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
-  }
+  const {values, handleChange, errors, isValid, resetForm} = useFormAndValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    if (!formValue.email || !formValue.password) {
+    if (!values.email || !values.password) {
       return;
     }
-    onLogin(formValue.email, formValue.password)
+    onLogin(values.email, values.password);
+    resetForm();
   }
 
   return (
@@ -30,30 +24,33 @@ function Login({ onLogin }) {
             name="email"
             type="email"
             placeholder="Email"
+            minLength="2"
             required
             onChange={handleChange}
-            value={formValue.email || ""}
+            value={values.email || ""}
           />
           <span
             className="input-email-error login__text-input-error"
             type="text"
-          ></span>
+          >{errors.email}</span>
           <input
             id="password"
             className="login__text"
             name="password"
             type="password"
             placeholder="Пароль"
+            minLength="6"
+            maxLength="16"
             required
             onChange={handleChange}
-            value={formValue.password || ""}
+            value={values.password || ""}
           />
           <span
             className="input-password-error login__text-input-error"
             type="text"
-          ></span>
+          >{errors.password}</span>
           <div className="login__button-container">
-            <button className="login__button" type="submit">
+            <button className="login__button" type="submit" disabled={isValid?false:true}>
               Войти
             </button>
             </div>

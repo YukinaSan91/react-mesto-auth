@@ -33,6 +33,7 @@
 @import url(../src/blocks/login/__heading/login__heading.css);
 @import url(../src/blocks/login/__form/login__form.css);
 @import url(../src/blocks/login/__text/login__text.css);
+@import url(../src/blocks/login/__text/_type/login__text_type_error.css);
 @import url(../src/blocks/login/__text-input-error/login__text-input-error.css);
 @import url(../src/blocks/login/__button-container/login__button-container.css);
 @import url(../src/blocks/login/__button/login__button.css);
