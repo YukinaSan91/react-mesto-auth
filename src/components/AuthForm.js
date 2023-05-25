@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-function Login({ onLogin }) {
+function AuthForm({title, name, buttonText, onSubmit, children}) {
   const [formValue, setFormValue] = useState({ email: "", password: "" });
 
   function handleChange(evt) {
@@ -11,19 +11,11 @@ function Login({ onLogin }) {
     });
   }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    if (!formValue.email || !formValue.password) {
-      return;
-    }
-    onLogin(formValue.email, formValue.password)
-  }
-
   return (
     <div className="login">
       <div className="login__container">
-        <h2 className="login__heading">Вход</h2>
-        <form className="login__form" name="login" onSubmit={handleSubmit}>
+        <h2 className="login__heading">{title}</h2>
+        <form className="login__form" name={name} onSubmit={onSubmit}>
           <input
             id="email"
             className="login__text"
@@ -54,13 +46,14 @@ function Login({ onLogin }) {
           ></span>
           <div className="login__button-container">
             <button className="login__button" type="submit">
-              Войти
+              {buttonText}
             </button>
-            </div>
+            {children}
+          </div>
         </form>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default AuthForm;

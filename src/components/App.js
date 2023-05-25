@@ -173,9 +173,19 @@ function App() {
       })
   };
 
-  function handleLogin() {
-    checkToken();
-    setLoggedIn(true);
+  function handleLogin(email, password) {
+    auth
+      .login(email, password)
+      .then((data) => {
+        if (data.token) {
+          checkToken();
+          setLoggedIn(true);
+          navigate("/", { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   function handleLogout() {
@@ -199,6 +209,9 @@ function App() {
             navigate("/", { replace: true });
           }
         })
+        .catch((err) => {
+          console.log(err);
+        });
     };
   };
 
